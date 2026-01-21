@@ -5,28 +5,49 @@
 }
 
 body {
-  background: #f0f0f0;
+  background: #ffffff;
   color: #000000;
   font-family: -apple-system, BlinkMacSystemFont,
                "Apple SD Gothic Neo",
                "Noto Sans KR", sans-serif;
 }
 
-/* 타이틀 */
-.title {
+/* 상단 / 하단 고정 공통 */
+.fixed {
+  position: fixed;
   width: 100%;
   text-align: center;
   font-size: 12px;
   letter-spacing: 0.02em;
-  padding-top: 80px;
-  margin-bottom: 40px;
+  z-index: 10;
+  pointer-events: auto;
+}
+
+/* 상단 */
+.fixed.top {
+  top: 40px;
+}
+
+/* 하단 */
+.fixed.bottom {
+  bottom: 40px;
+}
+
+/* 링크 스타일 */
+.fixed a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.fixed a:hover {
+  text-decoration: underline;
 }
 
 /* 이미지 컨테이너 */
 .container {
   max-width: 900px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 160px 20px; /* 상단/하단 텍스트 피해서 */
 }
 
 /* 이미지 */
