@@ -1,28 +1,32 @@
----
-layout: none
----
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8">
-  <title>기록</title>
-  <link rel="stylesheet" href="/notes/style.css">
+  <meta charset="UTF-8" />
+  <title>Jang Hyukjun</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<h1>기록</h1>
+  <main class="container">
 
-{% for page in site.pages %}
-  {% if page.date %}
-    <article>
-      <h2>
-        <a href="{{ page.url }}">{{ page.title }}</a>
-      </h2>
-      <time>{{ page.date | date: "%Y.%m.%d" }}</time>
-    </article>
-  {% endif %}
-{% endfor %}
+    <header class="title">
+      장혁준 Jang Hyukjun
+    </header>
+
+    <section class="item">
+      <img src="https://via.placeholder.com/1200x800" alt="">
+    </section>
+
+    <section class="item">
+      <img src="https://via.placeholder.com/1200x800" alt="">
+    </section>
+
+    <section class="item">
+      <img src="https://via.placeholder.com/1200x800" alt="">
+    </section>
+
+  </main>
 
 </body>
 </html>
