@@ -43,7 +43,7 @@ body {
 .images img {
   display: block;
   width: 100%;
-  max-width: 720px;      /* ← 여기서 좌우 폭 결정 */
+  max-width: 300px;      /* ← 여기서 좌우 폭 결정 */
   height: auto;
   margin: 0;
 }
