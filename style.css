@@ -12,51 +12,57 @@ body {
                "Noto Sans KR", sans-serif;
 }
 
-/* 상단 / 하단 고정 공통 */
+/* ─────────────────────────
+   상단 / 하단 고정 공통
+───────────────────────── */
 .fixed {
   position: fixed;
-  width: 100%;
-  text-align: center;
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 12px;
   letter-spacing: 0.02em;
+  text-align: center;
   z-index: 10;
-  pointer-events: auto;
+  white-space: nowrap;
 }
 
-/* 상단 */
+/* 상단: 여백 1/3로 줄임 */
 .fixed.top {
-  top: 40px;
+  top: 14px; /* 기존 40px → 약 1/3 */
 }
 
-/* 하단 */
+/* 하단: 화면 중앙 하단 */
 .fixed.bottom {
-  bottom: 40px;
+  bottom: 14px;
 }
 
-/* 링크 스타일 */
+/* 링크 기본 상태 */
 .fixed a {
-  color: inherit;
+  color: #000000;
   text-decoration: none;
 }
 
+/* hover 시만 밑줄 */
 .fixed a:hover {
   text-decoration: underline;
+  text-decoration-color: #000000;
 }
 
-/* 이미지 컨테이너 */
+/* ─────────────────────────
+   이미지 영역
+───────────────────────── */
 .container {
   max-width: 900px;
   margin: 0 auto;
-  padding: 160px 20px; /* 상단/하단 텍스트 피해서 */
+  padding-top: 80px;   /* 상단 텍스트 피함 */
+  padding-bottom: 80px;/* 하단 텍스트 피함 */
 }
 
-/* 이미지 */
 .item {
   margin: 0;
 }
 
 .item img {
   width: 100%;
-  height: auto;
   display: block;
 }
