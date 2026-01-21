@@ -1,0 +1,28 @@
+---
+layout: none
+---
+
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>기록</title>
+  <link rel="stylesheet" href="/notes/style.css">
+</head>
+<body>
+
+<h1>기록</h1>
+
+{% for page in site.pages %}
+  {% if page.date %}
+    <article>
+      <h2>
+        <a href="{{ page.url }}">{{ page.title }}</a>
+      </h2>
+      <time>{{ page.date | date: "%Y.%m.%d" }}</time>
+    </article>
+  {% endif %}
+{% endfor %}
+
+</body>
+</html>

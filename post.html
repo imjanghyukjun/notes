@@ -1,0 +1,26 @@
+---
+layout: none
+---
+
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>{{ page.title }}</title>
+  <link rel="stylesheet" href="/notes/style.css">
+</head>
+<body>
+
+<article>
+  <h1>{{ page.title }}</h1>
+  <time>{{ page.date | date: "%Y.%m.%d" }}</time>
+
+  <div>
+    {{ content }}
+  </div>
+</article>
+
+<a href="/notes/">← 돌아가기</a>
+
+</body>
+</html>
