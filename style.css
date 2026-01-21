@@ -1,68 +1,69 @@
+/* reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* base */
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
 body {
   background: #ffffff;
   color: #000000;
-  font-family: -apple-system, BlinkMacSystemFont,
-               "Apple SD Gothic Neo",
-               "Noto Sans KR", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+    "Noto Sans KR", Helvetica, Arial, sans-serif;
 }
 
-/* ─────────────────────────
-   상단 / 하단 고정 공통
-───────────────────────── */
-.fixed {
+/* top title */
+.header {
   position: fixed;
+  top: 20px; /* 기존보다 여백 1/3 수준 */
   left: 50%;
   transform: translateX(-50%);
   font-size: 12px;
-  letter-spacing: 0.02em;
   text-align: center;
-  z-index: 10;
   white-space: nowrap;
 }
 
-/* 상단: 여백 1/3로 줄임 */
-.fixed.top {
-  top: 14px; /* 기존 40px → 약 1/3 */
+/* image area */
+.images {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 60px; /* 타이틀 아래 40px 정도 여유 */
 }
 
-/* 하단: 화면 중앙 하단 */
-.fixed.bottom {
-  bottom: 14px;
-}
-
-/* 링크 기본 상태 */
-.fixed a {
-  color: #000000;
-  text-decoration: none;
-}
-
-/* hover 시만 밑줄 */
-.fixed a:hover {
-  text-decoration: underline;
-  text-decoration-color: #000000;
-}
-
-/* ─────────────────────────
-   이미지 영역
-───────────────────────── */
-.container {
+.images img {
+  display: block;
+  width: 100%;
   max-width: 900px;
-  margin: 0 auto;
-  padding-top: 80px;   /* 상단 텍스트 피함 */
-  padding-bottom: 80px;/* 하단 텍스트 피함 */
-}
-
-.item {
+  height: auto;
   margin: 0;
 }
 
-.item img {
-  width: 100%;
-  display: block;
+/* bottom info */
+.footer {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* links */
+.footer a {
+  color: #000000;
+  text-decoration: none;
+  margin: 0 6px;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+  text-decoration-color: #000000;
 }
