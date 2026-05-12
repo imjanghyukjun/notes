@@ -14,69 +14,89 @@
 
     body {
       font-family: sans-serif;
-      line-height: 1.6;
       background-color: #fff;
       display: flex;
       flex-direction: column;
       min-height: 100vh;
+      color: #000;
     }
 
-    /* 상단 헤더 */
+    /* 1. 상단 제목: 중앙정렬, 하단 폰트와 통일, 홈 새로고침 */
     .header {
       padding: 20px;
-      font-size: 1.1rem;
-      font-weight: 500;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
-    /* 이미지 메인 영역 */
+    .home-link {
+      text-decoration: none;
+      color: #000;
+      /* 하단 폰트와 동일한 사이즈 및 두께 설정 */
+      font-size: 0.9rem;
+      font-weight: 400; 
+    }
+
+    .home-link:hover {
+      text-decoration: underline;
+    }
+
+    /* 3. 배경 이미지 영역: 가로 전체의 3/5 (60%) 제한 */
     .images {
       flex: 1;
-      padding: 0 20px;
       display: flex;
-      justify-content: flex-start; /* 왼쪽 정렬 */
+      justify-content: center; /* 가로 중앙 배치 */
       align-items: flex-start;
+      padding-top: 40px;
     }
 
-    /* 인터랙션을 위한 컨테이너 */
     .image-container {
       position: relative;
-      display: inline-block;
+      /* 가로 길이를 화면의 60%로 제한 */
+      width: 60%; 
+      max-width: 900px; /* 너무 커지는 것 방지 */
       line-height: 0;
       cursor: crosshair;
       overflow: hidden;
-      border: 1px solid #eee; /* 이미지 경계 확인용 (선택사항) */
     }
 
     .base-image {
-      max-width: 100%;
+      width: 100%;
       height: auto;
       display: block;
-      /* 웹사이트 디자인에 맞춰 이미지 크기를 제한하려면 아래 주석을 해제하세요 */
-      /* max-height: 70vh; */
+      opacity: 1;
     }
 
-    /* 마우스를 따라 늘어나는 하얀 박스 */
-    .hover-box {
+    /* 2. 마우스 따라 움직이는 신축성 있는 이미지 박스 */
+    .hover-image-box {
       position: absolute;
       top: 0;
       left: 0;
       width: 0;
       height: 0;
-      background-color: rgba(255, 255, 255, 0.85); /* 85% 투명한 하얀색 */
-      border-right: 1px solid #000; /* 오른쪽 끝 선 */
-      border-bottom: 1px solid #000; /* 아래쪽 끝 선 */
-      pointer-events: none; /* 박스가 마우스 이벤트를 가리지 않도록 */
+      overflow: hidden;
+      pointer-events: none;
       opacity: 0;
       transition: opacity 0.3s ease;
     }
 
-    .image-container:hover .hover-box {
+    .image-container:hover .hover-image-box {
       opacity: 1;
+    }
+
+    /* '내용을 프레임에 맞춤' 효과: 프레임 크기에 맞춰 이미지 압축/확장 */
+    .hover-image-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: fill; /* 박스 크기에 무조건 맞춤 (찌그러짐 발생) */
+      display: block;
     }
 
     /* 하단 푸터 */
     .footer {
       padding: 20px;
+      display: flex;
+      justify-content: flex-start;
     }
 
     .footer-inner {
@@ -88,6 +108,7 @@
       color: #000;
       text-decoration: none;
       font-size: 0.9rem;
+      font-weight: 400;
     }
 
     .footer-inner a:hover {
@@ -99,13 +120,16 @@
 <body>
 
   <div class="header">
-    <span>장혁준 Jang Hyukjun</span>
+    <a href="/" class="home-link">장혁준 Jang Hyukjun</a>
   </div>
 
   <main class="images">
     <div class="image-container" id="container">
-      <img src="images/On-754.jpg" alt="Portfolio Image" class="base-image">
-      <div class="hover-box" id="mask"></div>
+      <img src="images/On-754.jpg" alt="Background" class="base-image">
+      
+      <div class="hover-image-box" id="mask">
+        <img src="images/On-754.jpg" alt="Distorted View">
+      </div>
     </div>
   </main>
 
@@ -121,23 +145,21 @@
     const mask = document.getElementById('mask');
 
     container.addEventListener('mousemove', (e) => {
-      // 이미지 컨테이너의 현재 위치와 크기 계산
       const rect = container.getBoundingClientRect();
 
-      // 전체 화면 기준 마우스 좌표에서 컨테이너 시작점을 빼서 내부 좌표 구함
+      // 마우스 상대 좌표 계산
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
 
-      // 계산된 좌표를 하얀 박스의 너비와 높이로 할당
-      // 이미지 영역을 벗어나지 않도록 클램핑(Clamping) 처리
+      // 이미지 경계 내부로 값 제한
       const width = Math.min(Math.max(x, 0), rect.width);
       const height = Math.min(Math.max(y, 0), rect.height);
 
+      // 박스 크기를 마우스 좌표에 맞춤 -> 내부 이미지는 object-fit: fill에 의해 찌그러짐
       mask.style.width = width + 'px';
       mask.style.height = height + 'px';
     });
 
-    // 마우스가 이미지를 벗어나면 박스 크기 초기화
     container.addEventListener('mouseleave', () => {
       mask.style.width = '0';
       mask.style.height = '0';
