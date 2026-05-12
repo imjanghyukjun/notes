@@ -4,33 +4,145 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Jang Hyukjun</title>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* 기본 스타일 초기화 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: sans-serif;
+      line-height: 1.6;
+      background-color: #fff;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* 상단 헤더 */
+    .header {
+      padding: 20px;
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+
+    /* 이미지 메인 영역 */
+    .images {
+      flex: 1;
+      padding: 0 20px;
+      display: flex;
+      justify-content: flex-start; /* 왼쪽 정렬 */
+      align-items: flex-start;
+    }
+
+    /* 인터랙션을 위한 컨테이너 */
+    .image-container {
+      position: relative;
+      display: inline-block;
+      line-height: 0;
+      cursor: crosshair;
+      overflow: hidden;
+      border: 1px solid #eee; /* 이미지 경계 확인용 (선택사항) */
+    }
+
+    .base-image {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      /* 웹사이트 디자인에 맞춰 이미지 크기를 제한하려면 아래 주석을 해제하세요 */
+      /* max-height: 70vh; */
+    }
+
+    /* 마우스를 따라 늘어나는 하얀 박스 */
+    .hover-box {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      background-color: rgba(255, 255, 255, 0.85); /* 85% 투명한 하얀색 */
+      border-right: 1px solid #000; /* 오른쪽 끝 선 */
+      border-bottom: 1px solid #000; /* 아래쪽 끝 선 */
+      pointer-events: none; /* 박스가 마우스 이벤트를 가리지 않도록 */
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .image-container:hover .hover-box {
+      opacity: 1;
+    }
+
+    /* 하단 푸터 */
+    .footer {
+      padding: 20px;
+    }
+
+    .footer-inner {
+      display: flex;
+      gap: 20px;
+    }
+
+    .footer-inner a {
+      color: #000;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+
+    .footer-inner a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 
 <body>
 
-  <!-- top title -->
   <div class="header">
     <span>장혁준 Jang Hyukjun</span>
   </div>
 
-  <!-- images -->
   <main class="images">
-    <img src="images/On-754.jpg" alt="">
-    <img src="images/On-753.jpg" alt="">
+    <div class="image-container" id="container">
+      <img src="images/On-754.jpg" alt="Portfolio Image" class="base-image">
+      <div class="hover-box" id="mask"></div>
+    </div>
   </main>
 
-  <!-- bottom info -->
   <div class="footer">
     <div class="footer-inner">
-      <a href="mailto:imjanghyukjun@gmail.com">
-        Email
-      </a>
-      <a href="https://instagram.com/janghyukjun_/" target="_blank" rel="noopener noreferrer">
-        Instagram
-      </a>
+      <a href="mailto:imjanghyukjun@gmail.com">Email</a>
+      <a href="https://instagram.com/janghyukjun_/" target="_blank" rel="noopener noreferrer">Instagram</a>
     </div>
   </div>
+
+  <script>
+    const container = document.getElementById('container');
+    const mask = document.getElementById('mask');
+
+    container.addEventListener('mousemove', (e) => {
+      // 이미지 컨테이너의 현재 위치와 크기 계산
+      const rect = container.getBoundingClientRect();
+
+      // 전체 화면 기준 마우스 좌표에서 컨테이너 시작점을 빼서 내부 좌표 구함
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      // 계산된 좌표를 하얀 박스의 너비와 높이로 할당
+      // 이미지 영역을 벗어나지 않도록 클램핑(Clamping) 처리
+      const width = Math.min(Math.max(x, 0), rect.width);
+      const height = Math.min(Math.max(y, 0), rect.height);
+
+      mask.style.width = width + 'px';
+      mask.style.height = height + 'px';
+    });
+
+    // 마우스가 이미지를 벗어나면 박스 크기 초기화
+    container.addEventListener('mouseleave', () => {
+      mask.style.width = '0';
+      mask.style.height = '0';
+    });
+  </script>
 
 </body>
 </html>
