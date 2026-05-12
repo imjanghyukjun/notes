@@ -18,9 +18,9 @@
       flex-direction: column;
       min-height: 100vh;
       color: #000;
+      overflow-x: hidden; /* 가로 스크롤 방지 */
     }
 
-    /* 1. 상단 제목: 중앙정렬, 폰트 통일, 현재 페이지 새로고침 */
     .header {
       padding: 20px;
       display: flex;
@@ -39,19 +39,18 @@
       text-decoration: underline;
     }
 
-    /* 마우스 이벤트를 감지할 전체 메인 영역 */
+    /* 마우스 이벤트를 감지할 전체 영역 */
     .main-wrapper {
       flex: 1;
       display: flex;
       justify-content: center;
       align-items: center;
       position: relative;
-      padding: 40px 0;
-      /* 마우스 감지를 위해 전체 영역 사용 */
+      padding: 60px 0;
       cursor: crosshair;
     }
 
-    /* 3. 배경 이미지: 가로 전체의 3/5 */
+    /* 배경 이미지 컨테이너 (3/5 너비) */
     .image-container {
       position: relative;
       width: 60%; 
@@ -65,14 +64,131 @@
       display: block;
     }
 
-    /* 사진 정보 기입 (우측 하단) */
     .image-info {
       text-align: right;
       font-size: 10px;
       color: #666;
-      margin-top: 8px; /* 미세한 여백 */
+      margin-top: 8px;
       font-weight: 300;
     }
+
+    /* 늘어나는 이미지 박스 */
+    .hover-image-box {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      overflow: hidden;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 10;
+      /* 박스 자체에 경계선을 주어 형태를 명확히 함 (선택 사항) */
+      border-right: 0.5px solid rgba(0,0,0,0.1);
+      border-bottom: 0.5px solid rgba(0,0,0,0.1);
+    }
+
+    .main-wrapper:hover .hover-image-box {
+      opacity: 1;
+    }
+
+    .hover-image-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      display: block;
+      will-change: transform; /* 성능 최적화 */
+    }
+
+    .footer {
+      padding: 20px;
+    }
+
+    .footer-inner {
+      display: flex;
+      gap: 20px;
+    }
+
+    .footer-inner a {
+      color: #000;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 400;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    <a href="index.html" class="home-link">장혁준 Jang Hyukjun</a>
+  </div>
+
+  <main class="main-wrapper" id="interaction-area">
+    <div class="image-container" id="image-box">
+      <img src="images/On-754.jpg" alt="Background" class="base-image">
+      
+      <div class="image-info">
+        © 장혁준, Frankfurt, 2024
+      </div>
+
+      <div class="hover-image-box" id="mask">
+        <img src="images/On-754.jpg" alt="Distorted View" id="mask-img">
+      </div>
+    </div>
+  </main>
+
+  <div class="footer">
+    <div class="footer-inner">
+      <a href="mailto:imjanghyukjun@gmail.com">Email</a>
+      <a href="https://instagram.com/janghyukjun_/" target="_blank" rel="noopener noreferrer">Instagram</a>
+    </div>
+  </div>
+
+  <script>
+    const area = document.getElementById('interaction-area');
+    const imageBox = document.getElementById('image-box');
+    const mask = document.getElementById('mask');
+    const maskImg = document.getElementById('mask-img');
+
+    area.addEventListener('mousemove', (e) => {
+      const rect = imageBox.getBoundingClientRect();
+
+      // 기준점(이미지 왼쪽 상단)으로부터 마우스까지의 거리 계산
+      const diffX = e.clientX - rect.left;
+      const diffY = e.clientY - rect.top;
+
+      // 절대값을 사용하여 마우스가 왼쪽/위로 가도 박스 크기가 늘어나게 함
+      const boxWidth = Math.abs(diffX);
+      const boxHeight = Math.abs(diffY);
+
+      mask.style.width = boxWidth + 'px';
+      mask.style.height = boxHeight + 'px';
+
+      // 좌우 반전 로직: 마우스가 이미지 기준점보다 왼쪽에 있으면 반전
+      if (diffX < 0) {
+        maskImg.style.transform = 'scaleX(-1)';
+      } else {
+        maskImg.style.transform = 'scaleX(1)';
+      }
+
+      // 상하 반전 로직 (추가): 마우스가 이미지 기준점보다 위에 있으면 상하 반전
+      if (diffY < 0) {
+        maskImg.style.transform += ' scaleY(-1)';
+      } else {
+        maskImg.style.transform += ' scaleY(1)';
+      }
+    });
+
+    area.addEventListener('mouseleave', () => {
+      mask.style.width = '0';
+      mask.style.height = '0';
+    });
+  </script>
+
+</body>
+</html>    }
 
     /* 2. 마우스 따라 늘어나는 박스 내부의 이미지 */
     .hover-image-box {
