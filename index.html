@@ -18,11 +18,11 @@
       flex-direction: column;
       min-height: 100vh;
       color: #000;
-      overflow-x: hidden; /* 가로 스크롤 방지 */
+      overflow-x: hidden;
     }
 
     .header {
-      padding: 4px;
+      padding: 20px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -39,7 +39,6 @@
       text-decoration: underline;
     }
 
-    /* 마우스 이벤트를 감지할 전체 영역 */
     .main-wrapper {
       flex: 1;
       display: flex;
@@ -50,7 +49,6 @@
       cursor: crosshair;
     }
 
-    /* 배경 이미지 컨테이너 (3/5 너비) */
     .image-container {
       position: relative;
       width: 60%; 
@@ -73,6 +71,123 @@
     }
 
     /* 늘어나는 이미지 박스 */
+    .hover-image-box {
+      position: absolute;
+      /* 고정 위치를 스크립트에서 실시간으로 변경할 것이므로 초기값 제거 */
+      width: 0;
+      height: 0;
+      overflow: hidden;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 10;
+      border: 0.5px solid rgba(0,0,0,0.1);
+    }
+
+    .main-wrapper:hover .hover-image-box {
+      opacity: 1;
+    }
+
+    .hover-image-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      display: block;
+    }
+
+    .footer {
+      padding: 20px;
+    }
+
+    .footer-inner {
+      display: flex;
+      gap: 20px;
+    }
+
+    .footer-inner a {
+      color: #000;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 400;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    <a href="index.html" class="home-link">장혁준 Jang Hyukjun</a>
+  </div>
+
+  <main class="main-wrapper" id="interaction-area">
+    <div class="image-container" id="image-box">
+      <img src="images/On-754.jpg" alt="Background" class="base-image">
+      
+      <div class="image-info">
+        © 장혁준, Frankfurt, 2024
+      </div>
+
+      <div class="hover-image-box" id="mask">
+        <img src="images/On-754.jpg" alt="Distorted View" id="mask-img">
+      </div>
+    </div>
+  </main>
+
+  <div class="footer">
+    <div class="footer-inner">
+      <a href="mailto:imjanghyukjun@gmail.com">Email</a>
+      <a href="https://instagram.com/janghyukjun_/" target="_blank" rel="noopener noreferrer">Instagram</a>
+    </div>
+  </div>
+
+  <script>
+    const area = document.getElementById('interaction-area');
+    const imageBox = document.getElementById('image-box');
+    const mask = document.getElementById('mask');
+    const maskImg = document.getElementById('mask-img');
+
+    area.addEventListener('mousemove', (e) => {
+      const rect = imageBox.getBoundingClientRect();
+
+      // 이미지의 왼쪽 상단(기준점)으로부터 마우스까지의 상대 거리
+      const diffX = e.clientX - rect.left;
+      const diffY = e.clientY - rect.top;
+
+      // 1. 박스의 크기 (절대값)
+      const boxWidth = Math.abs(diffX);
+      const boxHeight = Math.abs(diffY);
+
+      mask.style.width = boxWidth + 'px';
+      mask.style.height = boxHeight + 'px';
+
+      // 2. 박스의 위치 및 반전 로직 (핵심!)
+      // 마우스가 기준점(0)보다 왼쪽(음수)에 있으면 박스의 오른쪽 끝을 기준점에 맞춤
+      if (diffX < 0) {
+        mask.style.left = diffX + 'px'; // 마우스 위치로 박스 시작점 이동
+        maskImg.style.transform = 'scaleX(-1)';
+      } else {
+        mask.style.left = '0px'; // 다시 기준점에 붙임
+        maskImg.style.transform = 'scaleX(1)';
+      }
+
+      // 마우스가 기준점(0)보다 위쪽(음수)에 있으면 박스의 아래쪽 끝을 기준점에 맞춤
+      if (diffY < 0) {
+        mask.style.top = diffY + 'px'; // 마우스 위치로 박스 시작점 이동
+        maskImg.style.transform += ' scaleY(-1)';
+      } else {
+        mask.style.top = '0px'; // 다시 기준점에 붙임
+        maskImg.style.transform += ' scaleY(1)';
+      }
+    });
+
+    area.addEventListener('mouseleave', () => {
+      mask.style.width = '0';
+      mask.style.height = '0';
+    });
+  </script>
+
+</body>
+</html>    /* 늘어나는 이미지 박스 */
     .hover-image-box {
       position: absolute;
       top: 0;
